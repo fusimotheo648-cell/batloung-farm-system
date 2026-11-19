@@ -1,0 +1,26 @@
+digraph ERD {
+  graph [rankdir=LR, bgcolor="white", pad="0.3", nodesep="0.45", ranksep="0.8", label="Batloung Farm – Database Relationships\nCore assignment tables plus normalized supporting tables", labelloc=t, fontsize=18, fontname="Arial"];
+  node [shape=record, style="rounded,filled", fillcolor="#F8FAFC", color="#64748B", fontname="Arial", fontsize=10, margin="0.12,0.08"];
+  edge [color="#64748B", fontname="Arial", fontsize=9, arrowsize=0.7];
+  Suppliers [label="{SUPPLIERS|PK supplier_id\lname, province_id, contact_person\ltelephone, address\l}"];
+  Fruits [label="{FRUITS|PK fruit_id\lname, description, is_active\l}"];
+  Vendors [label="{VENDORS|PK vendor_id\lvendor_name, telephone, location\lregistration_date, status\l}"];
+  Purchases [label="{PURCHASES|PK purchase_id\lFK supplier_id\lpurchase_date, total_amount\l}"];
+  PurchaseDetails [label="{PURCHASE_DETAILS|PK purchase_detail_id\lFK purchase_id, product_id\lquantity, unit_cost, subtotal\l}"];
+  Products [label="{PRODUCTS|PK product_id\lFK fruit_id, box_size_id\lselling_price, quantity_per_box\lUNIQUE fruit_id + box_size_id\l}"];
+  BoxSizes [label="{BOX_SIZES|PK box_size_id\lname: Small / Medium / Large\l}"];
+  Stock [label="{STOCK|PK stock_id\lFK product_id (UNIQUE)\lquantity_available\l}"];
+  Sales [label="{SALES|PK sale_id\lFK vendor_id\lsale_date, total_amount, payment_status\l}"];
+  SalesDetails [label="{SALES_DETAILS|PK sales_detail_id\lFK sale_id, product_id\lquantity, unit_price, subtotal\l}"];
+  Payments [label="{PAYMENTS|PK payment_id\lFK sale_id\lmethod, amount, payment_date\l}"];
+  Suppliers -> Purchases [label="1 : many"];
+  Purchases -> PurchaseDetails [label="1 : many"];
+  Products -> PurchaseDetails [label="1 : many"];
+  Fruits -> Products [label="1 : many"];
+  BoxSizes -> Products [label="1 : many"];
+  Products -> Stock [label="1 : 1"];
+  Vendors -> Sales [label="1 : many"];
+  Sales -> SalesDetails [label="1 : many"];
+  Products -> SalesDetails [label="1 : many"];
+  Sales -> Payments [label="1 : many"];
+}
